@@ -1,6 +1,7 @@
 import 'package:facebook/sections/left_Pannel.dart';
 import 'package:facebook/views/mob.dart';
 import 'package:facebook/widgets/tab_widget.dart';
+import 'package:facebook/widgets/textField_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,6 +16,7 @@ class _AppBarMobState extends State<AppBarMob>
     with SingleTickerProviderStateMixin {
   @override
   TabController _tabController;
+  bool search = false;
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 6);
@@ -23,6 +25,12 @@ class _AppBarMobState extends State<AppBarMob>
 
   void _handleTabSelection() {
     setState(() {});
+  }
+
+  void handleSearch() {
+    setState(() {
+      search = !search;
+    });
   }
 
   @override
@@ -35,65 +43,105 @@ class _AppBarMobState extends State<AppBarMob>
           floating: true,
           pinned: true,
           snap: true,
-          title: Text(
-            'facebook',
-            style: TextStyle(
-                color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: Container(
-                width: 35,
-                height: 35,
-                child: FloatingActionButton(
-                  elevation: 0.1,
-                  onPressed: () {},
-                  child: Icon(
-                    Icons.search_rounded,
-                    color: Colors.black,
-                    size: 25,
-                  ),
-                  backgroundColor: Colors.white38,
-                ),
-              ),
-            ),
-            Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Container(
-                    width: 35,
-                    height: 35,
-                    child: FloatingActionButton(
-                      elevation: 0.1,
-                      backgroundColor: Color(0xF2F3F5),
-                      onPressed: () {},
-                      child: Icon(
-                        FontAwesomeIcons.facebookMessenger,
-                        color: Colors.black,
-                        size: 18,
+          title: (search == false)
+              ? Text(
+                  'facebook',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                )
+              : Container(),
+          actions: (search == false)
+              ? [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      child: FloatingActionButton(
+                        elevation: 0.1,
+                        onPressed: () {
+                          handleSearch();
+                        },
+                        child: Icon(
+                          Icons.search_rounded,
+                          color: Colors.black,
+                          size: 25,
+                        ),
+                        backgroundColor: Colors.white38,
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                    top: 5,
-                    right: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.red),
-                      width: 20,
-                      height: 20,
-                      child: Text(
-                        '4',
-                        style: TextStyle(color: Colors.white, fontSize: 10),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: Container(
+                          width: 35,
+                          height: 35,
+                          child: FloatingActionButton(
+                            elevation: 0.1,
+                            backgroundColor: Color(0xF2F3F5),
+                            onPressed: () {},
+                            child: Icon(
+                              FontAwesomeIcons.facebookMessenger,
+                              color: Colors.black,
+                              size: 18,
+                            ),
+                          ),
+                        ),
                       ),
-                    ))
-              ],
-            ),
-          ],
+                      Positioned(
+                          top: 5,
+                          right: 5,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.red),
+                            width: 20,
+                            height: 20,
+                            child: Text(
+                              '4',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 10),
+                            ),
+                          ))
+                    ],
+                  ),
+                ]
+              : [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.black),
+                            onPressed: handleSearch),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 0, 15, 0),
+                            child: Container(
+                              height: 40,
+                              child: TextField(
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          borderSide: BorderSide.none),
+                                      filled: true,
+                                      enabled: true,
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      hintText: "Search")),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
           bottom: TabBar(
             controller: _tabController,
             tabs: [
