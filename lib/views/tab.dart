@@ -50,35 +50,3 @@ class HomeTab extends StatelessWidget {
     );
   }
 }
-// Row(
-//       children: [
-//         Padding(
-//           padding: EdgeInsets.fromLTRB(
-//               0, 0, 0, MediaQuery.of(context).viewInsets.bottom),
-//           child: SingleChildScrollView(
-//             child: Container(
-//               color: Colors.black26,
-//               child: Row(
-//                 children: [
-//                   Expanded(
-//                       child: Container(
-//                     height: MediaQuery.of(context).size.height,
-//                     color: Colors.red,
-//                   )),
-//                   Expanded(
-//                     child: Column(
-//                       children: [AddPost(), Reels(), Posts()],
-//                     ),
-//                   ),
-//                   Expanded(
-//                       child: Container(
-//                     height: MediaQuery.of(context).size.height,
-//                     color: Colors.red,
-//                   )),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );

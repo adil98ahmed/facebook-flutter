@@ -106,8 +106,10 @@ class AddPost extends StatelessWidget {
           )
         ],
       ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: Colors.white),
+      decoration: (kIsWeb)
+          ? BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.white)
+          : BoxDecoration(),
     );
   }
 }
