@@ -8,11 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class PostItem extends StatelessWidget {
+class PostItem extends StatefulWidget {
   final User user;
   final int indexOfUser;
   const PostItem({Key key, this.user, this.indexOfUser}) : super(key: key);
 
+  @override
+  _PostItemState createState() => _PostItemState();
+}
+
+class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +45,7 @@ class PostItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             RoundedImg(
-                              imgSrc: user.photo,
+                              imgSrc: widget.user.photo,
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -48,7 +53,7 @@ class PostItem extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    user.userName,
+                                    widget.user.userName,
                                     style:
                                         TextStyle(fontWeight: FontWeight.w600),
                                   ),
@@ -95,37 +100,37 @@ class PostItem extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-            child: (user.post.caption != null)
-                ? Text(user.post.caption)
+            child: (widget.user.post.caption != null)
+                ? Text(widget.user.post.caption)
                 : Container(),
           ),
-          (user.post.photos.length == 1)
+          (widget.user.post.photos.length == 1)
               ? Container(
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                     child: Image(
-                      image: AssetImage(user.post.photos[0]),
+                      image: AssetImage(widget.user.post.photos[0]),
                       fit: BoxFit.cover,
                     ),
                   ),
                 )
-              : (user.post.photos.length > 1)
+              : (widget.user.post.photos.length > 1)
                   ? ImagesCarousal(
-                      images: user.post.photos,
+                      images: widget.user.post.photos,
                     )
                   : Container(),
           PostReactions(
-            numberOfComments: user.post.comments.length,
+            numberOfComments: widget.user.post.comments.length,
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
             child: BlocBuilder<MyBloc, List<User>>(builder: (context, state) {
               return Column(
                 children: [
-                  for (var i = 0; i < user.post.comments.length; i++)
+                  for (var i = 0; i < widget.user.post.comments.length; i++)
                     for (var j = 0; j < state.length; j++)
-                      if (user.post.comments[i].uId == state[j].id)
+                      if (widget.user.post.comments[i].uId == state[j].id)
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                           child: Row(
@@ -153,7 +158,7 @@ class PostItem extends StatelessWidget {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        user.post.comments[i].comment,
+                                        widget.user.post.comments[i].comment,
                                         style: TextStyle(fontSize: 12),
                                       ),
                                     ],
@@ -169,7 +174,7 @@ class PostItem extends StatelessWidget {
           ),
           Comment(
             controller: TextEditingController(),
-            indexOfUser: indexOfUser,
+            indexOfUser: widget.indexOfUser,
           )
         ],
       ),

@@ -3,10 +3,17 @@ import 'package:facebook/data_model_service/userModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PostReactions extends StatelessWidget {
+class PostReactions extends StatefulWidget {
   final int numberOfComments;
   const PostReactions({Key key, this.numberOfComments}) : super(key: key);
 
+  @override
+  _PostReactionsState createState() => _PostReactionsState();
+}
+
+bool like = false;
+
+class _PostReactionsState extends State<PostReactions> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,15 +37,15 @@ class PostReactions extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    ' 2',
+                    (!like) ? ' 2' : ' 3',
                     style: TextStyle(color: Colors.black54),
                   ),
                 ],
               ),
               Container(
-                  child: (numberOfComments > 0)
+                  child: (widget.numberOfComments > 0)
                       ? Text(
-                          '$numberOfComments.comments',
+                          '${widget.numberOfComments}.comments',
                           style: TextStyle(color: Colors.black54, fontSize: 13),
                         )
                       : Text('')),
@@ -64,18 +71,26 @@ class PostReactions extends StatelessWidget {
                     onTap: () {
                       context.read<MyBloc>().add(Events.start);
                     },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.thumb_up_alt_outlined,
-                          color: Colors.black54,
-                          size: 18,
-                        ),
-                        Text(
-                          ' Like',
-                          style: TextStyle(color: Colors.black54),
-                        )
-                      ],
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          like = !like;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.thumb_up_alt_outlined,
+                            color: (!like) ? Colors.black54 : Colors.blue,
+                            size: 18,
+                          ),
+                          Text(
+                            ' Like',
+                            style: TextStyle(
+                                color: (!like) ? Colors.black54 : Colors.blue),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
